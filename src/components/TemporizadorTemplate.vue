@@ -22,6 +22,7 @@ import CronometroFormatado from './CronometroFormatado.vue'
 
 export default defineComponent({
   name: 'TemporizadorTemplate',
+  emits: ['aoTemporizadorFinalizado'],
   components: {
     CronometroFormatado
   },
@@ -29,19 +30,21 @@ export default defineComponent({
     return {
       tempoEmSegundos: 0,
       cronometro: 0,
-      cronometroRodando: false
+      cronometroRodando: false,
     }
   },
   methods: {
     iniciar() {
+      this.cronometroRodando = true
       this.cronometro = setInterval(() => {
         this.tempoEmSegundos++
       }, 1000)
-      this.cronometroRodando = true
     },
     finalizar() {
-      clearInterval(this.cronometro)
       this.cronometroRodando = false
+      clearInterval(this.cronometro)
+      this.$emit("aoTemporizadorFinalizado", this.tempoEmSegundos)
+      this.tempoEmSegundos = 0
     }
   }
 })
