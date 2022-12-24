@@ -20,6 +20,7 @@ export default defineComponent({
   components: {
     TeomporizadorTemplate
   },
+  emits: ['aoSalvarTarefa'],
   data() {
     return {
       descricao: ''
@@ -27,6 +28,10 @@ export default defineComponent({
   },
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
+      this.$emit('aoSalvarTarefa', {
+        duracaoEmSegundos: tempoDecorrido,
+        descricao: this.descricao
+      })
       this.descricao = ''
     }
   }
