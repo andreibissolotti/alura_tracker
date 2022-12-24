@@ -27,8 +27,6 @@ export default defineComponent({
   },
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
-      console.log(tempoDecorrido)
-      console.log(this.descricao)
       this.descricao = ''
     }
   }
