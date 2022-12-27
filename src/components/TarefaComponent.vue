@@ -5,7 +5,7 @@
         {{ tarefa.descricao || "Tarefa sem descrição" }}
       </div>
       <div class="column">
-        <CronometroFormatado :tempo-em-segundos='tarefa.duracaoEmSegundos' />
+        <CronometroFormatado :tempo-em-segundos='tarefa.duracaoEmSegundos' class="no-dark" />
       </div>
     </div>
   </BoxTemplate>

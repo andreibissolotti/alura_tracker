@@ -27,4 +27,8 @@ export default defineComponent({
 .display {
   color: var(--texto-primario);
 }
+
+.no-dark>.display {
+  color: #363636;
+}
 </style>
