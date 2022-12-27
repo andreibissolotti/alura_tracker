@@ -1,7 +1,7 @@
 <template>
-  <main class="columns is-gapless is-multiline modo-escuro">
+  <main class="columns is-gapless is-multiline" :class="tema">
     <div class="column is-one-quarter">
-      <BarraLateral />
+      <BarraLateral @aoTemaAlterado="mudarTema" />
     </div>
     <div class="column is-three-quarter conteudo">
       <FormularioTarefa @aoSalvarTarefa="salvarTarefa" />
@@ -28,17 +28,30 @@ export default defineComponent({
   components: { BarraLateral, FormularioTarefa, TarefaComponent, BoxTemplate },
   data() {
     return {
-      tarefas: [] as ITarefa[]
+      tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false
     }
   },
   computed: {
     listaEstaVazia(): boolean {
       return this.tarefas.length === 0
+    },
+
+    tema() {
+      if (this.modoEscuroAtivo) {
+        return 'modo-escuro'
+      } else {
+        return 'modo-claro'
+      }
     }
   },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
       this.tarefas.push(tarefa)
+    },
+
+    mudarTema(modoEscuroAtivo: boolean) {
+      this.modoEscuroAtivo = modoEscuroAtivo
     }
   }
 });
@@ -49,7 +62,7 @@ export default defineComponent({
   padding: 1.25rem;
 }
 
-main {
+main.modo-claro {
   --bg-primario: #fff;
   --texto-primario: #000;
 }
