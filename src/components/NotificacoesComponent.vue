@@ -3,7 +3,7 @@
     <article v-for="notificacao in notificacoes" :key="notificacao.id" class="message"
       :class="contexto[notificacao.tipo]">
       <div class="message-header">{{ notificacao.titulo }}</div>
-      <div class="message-body">{{ notificacao.text }}</div>
+      <div class="message-body">{{ notificacao.texto }}</div>
     </article>
   </div>
 </template>

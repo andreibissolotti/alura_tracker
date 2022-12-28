@@ -6,7 +6,7 @@ export enum TipoNotificacao {
 
 export default interface IProjeto {
   titulo: string
-  text: string
+  texto: string
   tipo: TipoNotificacao
   id: number
 }
