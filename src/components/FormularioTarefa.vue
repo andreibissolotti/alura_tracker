@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="column">
-        <TeomporizadorTemplate @ao-temporizador-finalizado="finalizarTarefa" />
+        <TeomporizadorTemplate :tempoInicial="tempoInicial" @ao-temporizador-finalizado="finalizarTarefa" />
       </div>
     </div>
   </div>
@@ -24,6 +24,8 @@ import { computed, defineComponent } from 'vue';
 import TeomporizadorTemplate from './TemporizadorTemplate.vue'
 import { useStore } from 'vuex';
 import { key } from '@/store';
+import { TipoNotificacao } from '@/interfaces/INotificacao';
+import { NOTIFICAR } from '@/store/tipo-mutacoes';
 
 export default defineComponent({
   name: 'FormularioTarefa',
@@ -34,23 +36,39 @@ export default defineComponent({
   data() {
     return {
       descricao: '',
-      idProjeto: ''
+      idProjeto: '',
+      tempoDecorrido: 0
+    }
+  },
+  computed: {
+    tempoInicial(): number {
+      return this.tempoDecorrido;
     }
   },
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
-      this.$emit('aoSalvarTarefa', {
-        duracaoEmSegundos: tempoDecorrido,
-        descricao: this.descricao,
-        projeto: this.projetos.find(proj => proj.id == this.idProjeto)
-      })
-      console.log('aaaa')
-      this.descricao = ''
+      if (this.idProjeto) {
+        this.$emit('aoSalvarTarefa', {
+          duracaoEmSegundos: tempoDecorrido || this.tempoDecorrido,
+          descricao: this.descricao,
+          projeto: this.projetos.find(proj => proj.id == this.idProjeto)
+        })
+        this.descricao = ''
+        this.tempoDecorrido = 0
+      } else {
+        this.store.commit(NOTIFICAR, {
+          titulo: 'ERRO!!',
+          texto: 'É nescessario vincular a tarefa à um projeto',
+          tipo: TipoNotificacao.FALHA
+        })
+        this.tempoDecorrido = tempoDecorrido
+      }
     }
   },
   setup() {
     const store = useStore(key)
     return {
+      store,
       projetos: computed(() => store.state.projetos)
     }
   }
