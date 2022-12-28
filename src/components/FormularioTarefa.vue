@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="column">
-        <TeomporizadorTemplate :tempoInicial="tempoInicial" @ao-temporizador-finalizado="finalizarTarefa" />
+        <TeomporizadorTemplate @ao-temporizador-finalizado="finalizarTarefa" />
       </div>
     </div>
   </div>
@@ -40,11 +40,6 @@ export default defineComponent({
       tempoDecorrido: 0
     }
   },
-  computed: {
-    tempoInicial(): number {
-      return this.tempoDecorrido;
-    }
-  },
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
       if (this.idProjeto) {
@@ -54,14 +49,12 @@ export default defineComponent({
           projeto: this.projetos.find(proj => proj.id == this.idProjeto)
         })
         this.descricao = ''
-        this.tempoDecorrido = 0
       } else {
         this.store.commit(NOTIFICAR, {
           titulo: 'ERRO!!',
           texto: 'É nescessario vincular a tarefa à um projeto',
           tipo: TipoNotificacao.FALHA
         })
-        this.tempoDecorrido = tempoDecorrido
       }
     }
   },
