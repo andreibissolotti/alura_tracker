@@ -4,13 +4,8 @@
       <BarraLateral @aoTemaAlterado="mudarTema" />
     </div>
     <div class="column is-three-quarter conteudo">
-      <FormularioTarefa @aoSalvarTarefa="salvarTarefa" />
-      <div class="lista">
-        <TarefaComponent v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" />
-        <BoxTemplate v-if="listaEstaVazia">
-          Você não executou nenhuma tarefa ainda!!
-        </BoxTemplate>
-      </div>
+      <NotificacoesComponent />
+      <RouterView />
     </div>
   </main>
 </template>
@@ -18,25 +13,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import BarraLateral from './components/BarraLateral.vue';
-import FormularioTarefa from './components/FormularioTarefa.vue';
-import TarefaComponent from './components/TarefaComponent.vue';
-import ITarefa from './interfaces/Itarefa';
-import BoxTemplate from './components/BoxTemplate.vue';
+import NotificacoesComponent from './components/NotificacoesComponent.vue';
 
 export default defineComponent({
   name: "App",
-  components: { BarraLateral, FormularioTarefa, TarefaComponent, BoxTemplate },
+  components: { BarraLateral, NotificacoesComponent },
   data() {
     return {
-      tarefas: [] as ITarefa[],
       modoEscuroAtivo: false
     }
   },
   computed: {
-    listaEstaVazia(): boolean {
-      return this.tarefas.length === 0
-    },
-
     tema() {
       if (this.modoEscuroAtivo) {
         return 'modo-escuro'
@@ -46,10 +33,6 @@ export default defineComponent({
     }
   },
   methods: {
-    salvarTarefa(tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
-    },
-
     mudarTema(modoEscuroAtivo: boolean) {
       this.modoEscuroAtivo = modoEscuroAtivo
     }
