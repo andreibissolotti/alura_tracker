@@ -43,20 +43,12 @@ export default defineComponent({
   },
   methods: {
     finalizarTarefa(tempoDecorrido: number): void {
-      if (this.idProjeto) {
-        this.$emit('aoSalvarTarefa', {
-          duracaoEmSegundos: tempoDecorrido || this.tempoDecorrido,
-          descricao: this.descricao,
-          projeto: this.projetos.find(proj => proj.id == this.idProjeto)
-        })
-        this.descricao = ''
-      } else {
-        this.notificar(
-          TipoNotificacao.FALHA,
-          'ERRO!!',
-          'É nescessario vincular a tarefa à um projeto',
-        )
-      }
+      this.$emit('aoSalvarTarefa', {
+        duracaoEmSegundos: tempoDecorrido || this.tempoDecorrido,
+        descricao: this.descricao,
+        projeto: this.projetos.find(proj => proj.id == this.idProjeto)
+      })
+      this.descricao = ''
     }
   },
   setup() {
