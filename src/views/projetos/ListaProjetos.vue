@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="lista">
     <RouterLink to="/projetos/novo" class="button">
       <span class="icon is-small">
         <i class="fas fa-plus"></i>
@@ -58,3 +58,16 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+.table,
+.table thead td,
+.table thead th {
+  color: var(--texto-primario);
+  background-color: var(---bg-primario);
+}
+
+.title {
+  color: var(--texto-primario);
+}
+</style>
