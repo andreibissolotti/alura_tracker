@@ -21,7 +21,7 @@ import { defineComponent } from 'vue';
 import { useStore } from '@/store';
 import { ALTERA_PROJETO, ADICIONA_PROJETO } from '@/store/tipo-mutacoes';
 import { TipoNotificacao } from '@/interfaces/INotificacao';
-import { notificacaoMixin } from '@/mixins/notificar'
+import useNotificador from '@/hooks/notificador'
 
 export default defineComponent({
   name: 'FormularioProjetos',
@@ -55,10 +55,11 @@ export default defineComponent({
   },
   setup() {
     const store = useStore()
+    const { notificar } = useNotificador()
     return {
-      store
+      store,
+      notificar
     }
-  },
-  mixins: [notificacaoMixin]
+  }
 })
 </script>
