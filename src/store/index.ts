@@ -3,10 +3,12 @@ import { InjectionKey } from "vue";
 import { createStore, Store, useStore as vuexUseStore } from 'vuex';
 import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, EXCLUIR_PROJETO } from "./tipo-mutacoes";
 import ITarefa from "@/interfaces/Itarefa";
+import INotificacao, { TipoNotificacao } from "@/interfaces/INotificacao";
 
 interface Estado {
   projetos: IProjeto[],
-  tarefas: ITarefa[]
+  tarefas: ITarefa[],
+  notificacoes: INotificacao[]
 }
 
 export const key: InjectionKey<Store<Estado>> = Symbol()
@@ -14,7 +16,27 @@ export const key: InjectionKey<Store<Estado>> = Symbol()
 export const store = createStore<Estado>({
   state: {
     projetos: [],
-    tarefas: []
+    tarefas: [],
+    notificacoes: [
+      {
+        id: 1,
+        text: 'Texto da notificação',
+        titulo: 'Sucesso',
+        tipo: TipoNotificacao.SUCESSO
+      },
+      {
+        id: 2,
+        text: 'Texto da notificação',
+        titulo: 'Atençao',
+        tipo: TipoNotificacao.ATENCAO
+      },
+      {
+        id: 3,
+        text: 'Texto da notificação',
+        titulo: 'Falha',
+        tipo: TipoNotificacao.FALHA
+      }
+    ]
   },
   mutations: {
     [ADICIONA_PROJETO](state, nomeDoProjeto: string) {
