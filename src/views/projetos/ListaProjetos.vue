@@ -41,11 +41,13 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from '@/store';
 import { EXCLUIR_PROJETO } from '@/store/tipo-mutacoes';
 import { RouterLink } from 'vue-router';
+import { OBTER_PROJETOS } from '@/store/tipo-actions';
 
 export default defineComponent({
   name: 'ListaProjetos',
   setup() {
     const store = useStore()
+    store.dispatch(OBTER_PROJETOS)
     return {
       store,
       projetos: computed(() => store.state.projetos)
