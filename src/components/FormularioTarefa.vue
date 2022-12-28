@@ -26,6 +26,7 @@ import { useStore } from 'vuex';
 import { key } from '@/store';
 import { TipoNotificacao } from '@/interfaces/INotificacao';
 import { NOTIFICAR } from '@/store/tipo-mutacoes';
+import { notificacaoMixin } from '@/mixins/notificar';
 
 export default defineComponent({
   name: 'FormularioTarefa',
@@ -50,11 +51,11 @@ export default defineComponent({
         })
         this.descricao = ''
       } else {
-        this.store.commit(NOTIFICAR, {
-          titulo: 'ERRO!!',
-          texto: 'É nescessario vincular a tarefa à um projeto',
-          tipo: TipoNotificacao.FALHA
-        })
+        this.notificar(
+          TipoNotificacao.FALHA,
+          'ERRO!!',
+          'É nescessario vincular a tarefa à um projeto',
+        )
       }
     }
   },
@@ -64,7 +65,8 @@ export default defineComponent({
       store,
       projetos: computed(() => store.state.projetos)
     }
-  }
+  },
+  mixins: [notificacaoMixin]
 })
 </script>
 
