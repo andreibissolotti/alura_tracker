@@ -11,20 +11,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { computed, defineComponent } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
 import TarefaComponent from '../components/TarefaComponent.vue';
 import ITarefa from '../interfaces/Itarefa';
 import BoxTemplate from '../components/BoxTemplate.vue';
+import { key } from '@/store';
+import { useStore } from 'vuex';
+import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
 
 export default defineComponent({
   name: "TarefasView",
   components: { FormularioTarefa, TarefaComponent, BoxTemplate },
-  data() {
-    return {
-      tarefas: [] as ITarefa[],
-    }
-  },
   computed: {
     listaEstaVazia(): boolean {
       return this.tarefas.length === 0
@@ -32,7 +30,14 @@ export default defineComponent({
   },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
+      this.store.commit(ADICIONA_TAREFA, tarefa)
+    }
+  },
+  setup() {
+    const store = useStore(key)
+    return {
+      store,
+      tarefas: computed(() => store.state.tarefas)
     }
   }
 });

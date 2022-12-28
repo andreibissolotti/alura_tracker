@@ -44,6 +44,7 @@ export default defineComponent({
         descricao: this.descricao,
         projeto: this.projetos.find(proj => proj.id == this.idProjeto)
       })
+      console.log('aaaa')
       this.descricao = ''
     }
   },
