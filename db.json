@@ -9,7 +9,7 @@
     {
       "id": 1,
       "duracaoEmSegundos": 120,
-      "descricao": "Esta é uma tarefa",
+      "descricao": "Esta é uma tarefaaa",
       "projeto": {
         "id": 1,
         "name": "Alura Tracker"
@@ -22,18 +22,8 @@
     },
     {
       "duracaoEmSegundos": 5,
-      "descricao": "",
+      "descricao": "csfdvgdsrf",
       "id": 3
-    },
-    {
-      "duracaoEmSegundos": 3,
-      "descricao": "",
-      "id": 4
-    },
-    {
-      "duracaoEmSegundos": 1,
-      "descricao": "",
-      "id": 5
     }
   ]
 }

@@ -65,7 +65,7 @@ export default defineComponent({
 })
 </script>
 
-<style>
+<style scoped>
 .table,
 .table thead td,
 .table thead th {
