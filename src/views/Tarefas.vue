@@ -19,6 +19,7 @@ import BoxTemplate from '../components/BoxTemplate.vue';
 import { key } from '@/store';
 import { useStore } from 'vuex';
 import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
+import { OBTER_TAREFAS } from '@/store/tipo-actions';
 
 export default defineComponent({
   name: "TarefasView",
@@ -35,6 +36,7 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key)
+    store.dispatch(OBTER_TAREFAS)
     return {
       store,
       tarefas: computed(() => store.state.tarefas)
