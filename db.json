@@ -14,6 +14,26 @@
         "id": 1,
         "name": "Alura Tracker"
       }
+    },
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "",
+      "id": 2
+    },
+    {
+      "duracaoEmSegundos": 5,
+      "descricao": "",
+      "id": 3
+    },
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "",
+      "id": 4
+    },
+    {
+      "duracaoEmSegundos": 1,
+      "descricao": "",
+      "id": 5
     }
   ]
 }

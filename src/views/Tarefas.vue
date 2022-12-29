@@ -18,8 +18,9 @@ import ITarefa from '../interfaces/Itarefa';
 import BoxTemplate from '../components/BoxTemplate.vue';
 import { key } from '@/store';
 import { useStore } from 'vuex';
-import { ADICIONA_TAREFA } from '@/store/tipo-mutacoes';
-import { OBTER_TAREFAS } from '@/store/tipo-actions';
+import useNotificador from '@/hooks/notificador'
+import { CADASTRAR_TAREFA, OBTER_PROJETOS, OBTER_TAREFAS } from '@/store/tipo-actions';
+import { TipoNotificacao } from '@/interfaces/INotificacao';
 
 export default defineComponent({
   name: "TarefasView",
@@ -31,14 +32,18 @@ export default defineComponent({
   },
   methods: {
     salvarTarefa(tarefa: ITarefa) {
-      this.store.commit(ADICIONA_TAREFA, tarefa)
+      this.store.dispatch(CADASTRAR_TAREFA, tarefa)
+        .then(() => this.notificar(TipoNotificacao.SUCESSO, 'Tarefa Registrada', `A tarefa foi registrada com sucesso`))
     }
   },
   setup() {
     const store = useStore(key)
     store.dispatch(OBTER_TAREFAS)
+    store.dispatch(OBTER_PROJETOS)
+    const { notificar } = useNotificador()
     return {
       store,
+      notificar,
       tarefas: computed(() => store.state.tarefas)
     }
   }

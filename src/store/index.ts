@@ -4,7 +4,7 @@ import { createStore, Store, useStore as vuexUseStore } from 'vuex';
 import { ADICIONA_PROJETO, ADICIONA_TAREFA, ALTERA_PROJETO, DEFINIR_PROJETOS, DEFINIR_TAREFAS, EXCLUIR_PROJETO, NOTIFICAR } from "./tipo-mutacoes";
 import ITarefa from "@/interfaces/Itarefa";
 import INotificacao from "@/interfaces/INotificacao";
-import { ALTERAR_PROJETO, CADASTRAR_PROJETO, DELETAR_PROJETO, OBTER_PROJETOS, OBTER_TAREFAS } from "./tipo-actions";
+import { ALTERAR_PROJETO, CADASTRAR_PROJETO, CADASTRAR_TAREFA, DELETAR_PROJETO, OBTER_PROJETOS, OBTER_TAREFAS } from "./tipo-actions";
 import http from "@/http";
 
 interface Estado {
@@ -75,6 +75,10 @@ export const store = createStore<Estado>({
       http.get('tarefas')
         .then(resposta => commit(DEFINIR_TAREFAS, resposta.data))
     },
+    [CADASTRAR_TAREFA]({ commit }, tarefa: ITarefa) {
+      return http.post('/tarefas', tarefa)
+        .then(resposta => commit(ADICIONA_TAREFA, resposta.data))
+    }
   }
 })
 
