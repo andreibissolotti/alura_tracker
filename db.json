@@ -2,7 +2,7 @@
   "projetos": [
     {
       "id": 1,
-      "name": "Alura Tracker"
+      "name": "Alura Tracker 2.0"
     }
   ],
   "tarefas": [
@@ -14,11 +14,6 @@
         "id": 1,
         "name": "Alura Tracker"
       }
-    },
-    {
-      "duracaoEmSegundos": 5,
-      "descricao": "csfdvgdsrf",
-      "id": 3
     }
   ]
 }

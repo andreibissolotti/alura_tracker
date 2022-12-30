@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useStore } from '@/store';
 import { TipoNotificacao } from '@/interfaces/INotificacao';
 import useNotificador from '@/hooks/notificador'
@@ -28,17 +28,6 @@ export default defineComponent({
   props: {
     id: {
       type: String
-    }
-  },
-  mounted() {
-    if (this.id) {
-      const projeto = this.store.state.projeto.projetos.find(proj => proj.id == this.id)
-      this.nomeDoProjeto = projeto?.name || ''
-    }
-  },
-  data() {
-    return {
-      nomeDoProjeto: ''
     }
   },
   methods: {
@@ -57,12 +46,21 @@ export default defineComponent({
       this.$router.push('/projetos')
     }
   },
-  setup() {
+  setup(props) {
     const store = useStore()
     const { notificar } = useNotificador()
+
+    const nomeDoProjeto = ref('')
+
+    if (props.id) {
+      const projeto = store.state.projeto.projetos.find(proj => proj.id == props.id)
+      nomeDoProjeto.value = projeto?.name || ''
+    }
+
     return {
       store,
-      notificar
+      notificar,
+      nomeDoProjeto
     }
   }
 })
