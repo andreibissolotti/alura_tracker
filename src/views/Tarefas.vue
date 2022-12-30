@@ -21,6 +21,12 @@
           </label>
           <input class="input" type="text" v-model="tarefaSelecionada.descricao" id="descricaoDaTarefa" />
         </div>
+        <div class="select">
+          <select v-model="idProjeto">
+            <option value="">N/D</option>
+            <option :value="projeto.id" v-for="projeto in projetos" :key="projeto.id">{{ projeto.name }}</option>
+          </select>
+        </div>
       </section>
       <footer class="modal-card-foot">
         <button class="button is-success" @click="alterarTarefa">Salvar</button>
@@ -36,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
 import TarefaComponent from '../components/TarefaComponent.vue';
 import ITarefa from '../interfaces/Itarefa';
@@ -67,11 +73,15 @@ export default defineComponent({
     },
     selecionarTarefa(tarefa: ITarefa) {
       this.tarefaSelecionada = tarefa
+      this.idProjeto = tarefa.projeto?.id || ''
     },
     fecharModal() {
       this.tarefaSelecionada = null
     },
     alterarTarefa() {
+      if (this.tarefaSelecionada) {
+        this.tarefaSelecionada.projeto = this.projetos.find(proj => proj.id == this.idProjeto) || null
+      }
       this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
         .then(this.fecharModal)
     },
@@ -82,13 +92,20 @@ export default defineComponent({
   },
   setup() {
     const store = useStore(key)
+    const idProjeto = ref('')
+    const projetos = computed(() => store.state.projeto.projetos)
+    const tarefas = computed(() => store.state.tarefa.tarefas)
+    const { notificar } = useNotificador()
+
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
-    const { notificar } = useNotificador()
+
     return {
       store,
       notificar,
-      tarefas: computed(() => store.state.tarefa.tarefas)
+      tarefas,
+      idProjeto,
+      projetos
     }
   }
 });

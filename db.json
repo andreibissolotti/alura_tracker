@@ -16,13 +16,26 @@
       "descricao": "Esta é uma tarefaaa",
       "projeto": {
         "id": 1,
-        "name": "Alura Tracker"
+        "name": "Alura Tracker 2.0"
       }
     },
     {
       "duracaoEmSegundos": 4,
       "descricao": "aaaaaab",
-      "id": 2
+      "id": 2,
+      "projeto": {
+        "name": "Plano de Estudos",
+        "id": 2
+      }
+    },
+    {
+      "duracaoEmSegundos": 3,
+      "descricao": "asfzxczxc",
+      "projeto": {
+        "id": 1,
+        "name": "Alura Tracker 2.0"
+      },
+      "id": 4
     }
   ]
 }
