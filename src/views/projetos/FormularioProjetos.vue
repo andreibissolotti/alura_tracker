@@ -22,6 +22,7 @@ import { useStore } from '@/store';
 import { TipoNotificacao } from '@/interfaces/INotificacao';
 import useNotificador from '@/hooks/notificador'
 import { ALTERAR_PROJETO, CADASTRAR_PROJETO } from '@/store/tipo-actions';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'FormularioProjetos',
@@ -30,23 +31,8 @@ export default defineComponent({
       type: String
     }
   },
-  methods: {
-    salvar() {
-      if (this.id) {
-        this.store.dispatch(ALTERAR_PROJETO, { id: this.id, name: this.nomeDoProjeto })
-          .then(() => this.sucesso())
-      } else {
-        this.store.dispatch(CADASTRAR_PROJETO, this.nomeDoProjeto)
-          .then(() => this.sucesso())
-      }
-    },
-    sucesso() {
-      this.notificar(TipoNotificacao.SUCESSO, 'Projeto salvo', `O projeto ${this.nomeDoProjeto} foi salvo com sucesso`)
-      this.nomeDoProjeto = ''
-      this.$router.push('/projetos')
-    }
-  },
   setup(props) {
+    const router = useRouter()
     const store = useStore()
     const { notificar } = useNotificador()
 
@@ -57,10 +43,25 @@ export default defineComponent({
       nomeDoProjeto.value = projeto?.name || ''
     }
 
+    const sucesso = () => {
+      notificar(TipoNotificacao.SUCESSO, 'Projeto salvo', `O projeto ${nomeDoProjeto.value} foi salvo com sucesso`)
+      nomeDoProjeto.value = ''
+      router.push('/projetos')
+    }
+
+    const salvar = () => {
+      if (props.id) {
+        store.dispatch(ALTERAR_PROJETO, { id: props.id, name: nomeDoProjeto.value })
+          .then(() => sucesso())
+      } else {
+        store.dispatch(CADASTRAR_PROJETO, nomeDoProjeto.value)
+          .then(() => sucesso())
+      }
+    }
+
     return {
-      store,
-      notificar,
-      nomeDoProjeto
+      nomeDoProjeto,
+      salvar
     }
   }
 })
