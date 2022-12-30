@@ -56,56 +56,56 @@ import { TipoNotificacao } from '@/interfaces/INotificacao';
 export default defineComponent({
   name: "TarefasView",
   components: { FormularioTarefa, TarefaComponent, BoxTemplate },
-  data() {
-    return {
-      tarefaSelecionada: null as ITarefa | null
-    }
-  },
-  computed: {
-    listaEstaVazia(): boolean {
-      return this.tarefas?.length === 0
-    }
-  },
-  methods: {
-    salvarTarefa(tarefa: ITarefa) {
-      this.store.dispatch(CADASTRAR_TAREFA, tarefa)
-        .then(() => this.notificar(TipoNotificacao.SUCESSO, 'Tarefa Registrada', `A tarefa foi registrada com sucesso`))
-    },
-    selecionarTarefa(tarefa: ITarefa) {
-      this.tarefaSelecionada = tarefa
-      this.idProjeto = tarefa.projeto?.id || ''
-    },
-    fecharModal() {
-      this.tarefaSelecionada = null
-    },
-    alterarTarefa() {
-      if (this.tarefaSelecionada) {
-        this.tarefaSelecionada.projeto = this.projetos.find(proj => proj.id == this.idProjeto) || null
-      }
-      this.store.dispatch(ALTERAR_TAREFA, this.tarefaSelecionada)
-        .then(this.fecharModal)
-    },
-    deletarTarefa() {
-      this.store.dispatch(DELETAR_TAREFA, this.tarefaSelecionada?.id)
-        .then(this.fecharModal)
-    }
-  },
   setup() {
     const store = useStore(key)
     const idProjeto = ref('')
     const projetos = computed(() => store.state.projeto.projetos)
     const tarefas = computed(() => store.state.tarefa.tarefas)
+    const listaEstaVazia = computed((): boolean => tarefas.value?.length === 0)
     const { notificar } = useNotificador()
+    const tarefaSelecionada = ref(null as ITarefa | null)
 
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
 
+    const salvarTarefa = (tarefa: ITarefa) => {
+      store.dispatch(CADASTRAR_TAREFA, tarefa)
+        .then(() => notificar(TipoNotificacao.SUCESSO, 'Tarefa Registrada', `A tarefa foi registrada com sucesso`))
+    }
+
+    const selecionarTarefa = (tarefa: ITarefa) => {
+      tarefaSelecionada.value = tarefa
+      idProjeto.value = tarefa.projeto?.id || ''
+    }
+
+    const fecharModal = () => {
+      tarefaSelecionada.value = null
+    }
+
+    const alterarTarefa = () => {
+      if (tarefaSelecionada.value) {
+        tarefaSelecionada.value.projeto = projetos.value.find(proj => proj.id == idProjeto.value) || null
+      }
+      store.dispatch(ALTERAR_TAREFA, tarefaSelecionada.value)
+        .then(fecharModal)
+    }
+
+    const deletarTarefa = () => {
+      store.dispatch(DELETAR_TAREFA, tarefaSelecionada.value?.id)
+        .then(fecharModal)
+    }
+
     return {
-      store,
-      notificar,
+      listaEstaVazia,
       tarefas,
+      tarefaSelecionada,
       idProjeto,
-      projetos
+      projetos,
+      fecharModal,
+      selecionarTarefa,
+      salvarTarefa,
+      alterarTarefa,
+      deletarTarefa
     }
   }
 });

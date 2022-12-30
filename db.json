@@ -11,29 +11,20 @@
   ],
   "tarefas": [
     {
-      "id": 1,
-      "duracaoEmSegundos": 120,
-      "descricao": "Esta é uma tarefaaa",
-      "projeto": {
-        "id": 1,
-        "name": "Alura Tracker 2.0"
-      }
-    },
-    {
       "duracaoEmSegundos": 4,
       "descricao": "aaaaaab",
       "id": 2,
       "projeto": {
-        "name": "Plano de Estudos",
-        "id": 2
+        "id": 1,
+        "name": "Alura Tracker 2.0"
       }
     },
     {
       "duracaoEmSegundos": 3,
       "descricao": "asfzxczxc",
       "projeto": {
-        "id": 1,
-        "name": "Alura Tracker 2.0"
+        "name": "Plano de Estudos",
+        "id": 2
       },
       "id": 4
     }
