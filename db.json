@@ -12,7 +12,7 @@
   "tarefas": [
     {
       "duracaoEmSegundos": 4,
-      "descricao": "aaaaaab",
+      "descricao": "banana",
       "id": 2,
       "projeto": {
         "id": 1,

@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
 import TarefaComponent from '../components/TarefaComponent.vue';
 import ITarefa from '../interfaces/Itarefa';
@@ -71,9 +71,10 @@ export default defineComponent({
     const tarefaSelecionada = ref(null as ITarefa | null)
     const { notificar } = useNotificador()
     const projetos = computed(() => store.state.projeto.projetos)
-    const tarefas = computed(() => store.state.tarefa.tarefas?.filter(
-      task => !filtro.value || task.descricao.includes(filtro.value)
-    ))
+    // const tarefas = computed(() => store.state.tarefa.tarefas?.filter(
+    //   task => !filtro.value || task.descricao.includes(filtro.value)
+    // ))
+    const tarefas = computed(() => store.state.tarefa.tarefas)
     const listaEstaVazia = computed((): boolean => tarefas.value?.length === 0)
 
     store.dispatch(OBTER_TAREFAS)
@@ -105,6 +106,11 @@ export default defineComponent({
       store.dispatch(DELETAR_TAREFA, tarefaSelecionada.value?.id)
         .then(fecharModal)
     }
+
+    watchEffect(() => {
+      store.dispatch(OBTER_TAREFAS, filtro.value)
+
+    })
 
     return {
       listaEstaVazia,
