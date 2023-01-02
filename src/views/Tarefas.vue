@@ -16,11 +16,11 @@
       @aoTarefaClicada="selecionarTarefa" />
   </div>
   <modalComponent :ativo="tarefaSelecionada != null" v-if="tarefaSelecionada">
-    <header class="modal-card-head">
+    <template v-slot:cabecalho>
       <p class="modal-card-title">Editar tarefa</p>
       <button class="delete" aria-label="close" @click="fecharModal"></button>
-    </header>
-    <section class="modal-card-body">
+    </template>
+    <template v-slot:corpo>
       <div class="field">
         <label for="descricaoDaTarefa" class="label">
           Descrição
@@ -33,8 +33,8 @@
           <option :value="projeto.id" v-for="projeto in projetos" :key="projeto.id">{{ projeto.name }}</option>
         </select>
       </div>
-    </section>
-    <footer class="modal-card-foot">
+    </template>
+    <template v-slot:rodape>
       <button class="button is-success" @click="alterarTarefa">Salvar</button>
       <button class="button" @click="fecharModal">Cancelar</button>
       <button class="button ml-2 is-danger" @click="deletarTarefa">
@@ -42,7 +42,7 @@
           <i class="fas fa-trash"></i>
         </span>
       </button>
-    </footer>
+    </template>
   </modalComponent>
 </template>
 

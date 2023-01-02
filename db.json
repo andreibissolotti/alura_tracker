@@ -11,15 +11,6 @@
   ],
   "tarefas": [
     {
-      "duracaoEmSegundos": 4,
-      "descricao": "banana",
-      "id": 2,
-      "projeto": {
-        "id": 1,
-        "name": "Alura Tracker 2.0"
-      }
-    },
-    {
       "duracaoEmSegundos": 2,
       "descricao": "Esturdando bleu",
       "projeto": {
