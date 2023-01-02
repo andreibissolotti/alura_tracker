@@ -71,10 +71,9 @@ export default defineComponent({
     const tarefaSelecionada = ref(null as ITarefa | null)
     const { notificar } = useNotificador()
     const projetos = computed(() => store.state.projeto.projetos)
-    // const tarefas = computed(() => store.state.tarefa.tarefas?.filter(
-    //   task => !filtro.value || task.descricao.includes(filtro.value)
-    // ))
-    const tarefas = computed(() => store.state.tarefa.tarefas)
+    const tarefas = computed(() => store.state.tarefa.tarefas?.filter(
+      task => !filtro.value || task.descricao.toLowerCase().includes(filtro.value.toLowerCase())
+    ))
     const listaEstaVazia = computed((): boolean => tarefas.value?.length === 0)
 
     store.dispatch(OBTER_TAREFAS)
@@ -106,11 +105,6 @@ export default defineComponent({
       store.dispatch(DELETAR_TAREFA, tarefaSelecionada.value?.id)
         .then(fecharModal)
     }
-
-    watchEffect(() => {
-      store.dispatch(OBTER_TAREFAS, filtro.value)
-
-    })
 
     return {
       listaEstaVazia,
