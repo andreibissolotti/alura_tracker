@@ -15,43 +15,41 @@
     <TarefaComponent v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"
       @aoTarefaClicada="selecionarTarefa" />
   </div>
-  <div class="modal" :class="{ 'is-active': tarefaSelecionada }" v-if="tarefaSelecionada">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Editar tarefa</p>
-        <button class="delete" aria-label="close" @click="fecharModal"></button>
-      </header>
-      <section class="modal-card-body">
-        <div class="field">
-          <label for="descricaoDaTarefa" class="label">
-            Descrição
-          </label>
-          <input class="input" type="text" v-model="tarefaSelecionada.descricao" id="descricaoDaTarefa" />
-        </div>
-        <div class="select">
-          <select v-model="idProjeto">
-            <option value="">N/D</option>
-            <option :value="projeto.id" v-for="projeto in projetos" :key="projeto.id">{{ projeto.name }}</option>
-          </select>
-        </div>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success" @click="alterarTarefa">Salvar</button>
-        <button class="button" @click="fecharModal">Cancelar</button>
-        <button class="button ml-2 is-danger" @click="deletarTarefa">
-          <span class="icon is-small">
-            <i class="fas fa-trash"></i>
-          </span>
-        </button>
-      </footer>
-    </div>
-  </div>
+  <modalComponent :ativo="tarefaSelecionada != null" v-if="tarefaSelecionada">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Editar tarefa</p>
+      <button class="delete" aria-label="close" @click="fecharModal"></button>
+    </header>
+    <section class="modal-card-body">
+      <div class="field">
+        <label for="descricaoDaTarefa" class="label">
+          Descrição
+        </label>
+        <input class="input" type="text" v-model="tarefaSelecionada.descricao" id="descricaoDaTarefa" />
+      </div>
+      <div class="select">
+        <select v-model="idProjeto">
+          <option value="">N/D</option>
+          <option :value="projeto.id" v-for="projeto in projetos" :key="projeto.id">{{ projeto.name }}</option>
+        </select>
+      </div>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" @click="alterarTarefa">Salvar</button>
+      <button class="button" @click="fecharModal">Cancelar</button>
+      <button class="button ml-2 is-danger" @click="deletarTarefa">
+        <span class="icon is-small">
+          <i class="fas fa-trash"></i>
+        </span>
+      </button>
+    </footer>
+  </modalComponent>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import FormularioTarefa from '../components/FormularioTarefa.vue';
+import modalComponent from '@/components/modalComponent.vue';
 import TarefaComponent from '../components/TarefaComponent.vue';
 import ITarefa from '../interfaces/Itarefa';
 import BoxTemplate from '../components/BoxTemplate.vue';
@@ -63,7 +61,7 @@ import { TipoNotificacao } from '@/interfaces/INotificacao';
 
 export default defineComponent({
   name: "TarefasView",
-  components: { FormularioTarefa, TarefaComponent, BoxTemplate },
+  components: { FormularioTarefa, TarefaComponent, BoxTemplate, modalComponent },
   setup() {
     const store = useStore(key)
     const idProjeto = ref('')

@@ -20,15 +20,6 @@
       }
     },
     {
-      "duracaoEmSegundos": 3,
-      "descricao": "asfzxczxc",
-      "projeto": {
-        "name": "Plano de Estudos",
-        "id": 2
-      },
-      "id": 4
-    },
-    {
       "duracaoEmSegundos": 2,
       "descricao": "Esturdando bleu",
       "projeto": {
