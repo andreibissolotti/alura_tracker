@@ -20,13 +20,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 import TeomporizadorTemplate from './TemporizadorTemplate.vue'
 import { useStore } from 'vuex';
 import { key } from '@/store';
-import { TipoNotificacao } from '@/interfaces/INotificacao';
-import { NOTIFICAR } from '@/store/tipo-mutacoes';
-import { notificacaoMixin } from '@/mixins/notificar';
 
 export default defineComponent({
   name: 'FormularioTarefa',
@@ -34,31 +31,28 @@ export default defineComponent({
     TeomporizadorTemplate
   },
   emits: ['aoSalvarTarefa'],
-  data() {
-    return {
-      descricao: '',
-      idProjeto: '',
-      tempoDecorrido: 0
-    }
-  },
-  methods: {
-    finalizarTarefa(tempoDecorrido: number): void {
-      this.$emit('aoSalvarTarefa', {
-        duracaoEmSegundos: tempoDecorrido || this.tempoDecorrido,
-        descricao: this.descricao,
-        projeto: this.projetos.find(proj => proj.id == this.idProjeto)
-      })
-      this.descricao = ''
-    }
-  },
-  setup() {
+  setup(props, { emit }) {
     const store = useStore(key)
+    const descricao = ref('')
+    const idProjeto = ref('')
+    const projetos = computed(() => store.state.projeto.projetos)
+
+    const finalizarTarefa = (tempoDecorrido: number): void => {
+      emit('aoSalvarTarefa', {
+        duracaoEmSegundos: tempoDecorrido,
+        descricao: descricao.value,
+        projeto: projetos.value.find(proj => proj.id == idProjeto.value)
+      })
+      descricao.value = ''
+    }
     return {
-      store,
-      projetos: computed(() => store.state.projetos)
+      finalizarTarefa,
+      projetos,
+      idProjeto,
+      descricao
     }
   },
-  mixins: [notificacaoMixin]
+
 })
 </script>
 

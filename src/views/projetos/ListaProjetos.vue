@@ -39,27 +39,33 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from '@/store';
-import { EXCLUIR_PROJETO } from '@/store/tipo-mutacoes';
 import { RouterLink } from 'vue-router';
+import { DELETAR_PROJETO, OBTER_PROJETOS } from '@/store/tipo-actions';
+import useNotificador from '@/hooks/notificador'
+import { TipoNotificacao } from '@/interfaces/INotificacao';
 
 export default defineComponent({
   name: 'ListaProjetos',
   setup() {
     const store = useStore()
+    const { notificar } = useNotificador()
+    store.dispatch(OBTER_PROJETOS)
     return {
       store,
-      projetos: computed(() => store.state.projetos)
+      projetos: computed(() => store.state.projeto.projetos),
+      notificar
     }
   },
   methods: {
     excluir(id: string) {
-      this.store.commit(EXCLUIR_PROJETO, id)
+      this.store.dispatch(DELETAR_PROJETO, id)
+        .then(() => this.notificar(TipoNotificacao.ATENCAO, 'Projeto salvo', `O projeto foi excluido com sucesso`))
     }
   }
 })
 </script>
 
-<style>
+<style scoped>
 .table,
 .table thead td,
 .table thead th {
