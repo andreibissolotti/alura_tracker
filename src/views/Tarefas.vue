@@ -1,6 +1,14 @@
 <template>
   <FormularioTarefa @aoSalvarTarefa="salvarTarefa" />
   <div class="lista">
+    <div class="field">
+      <p class="control has-icons-left has-icons-right">
+        <input class="input" type="text" placeholder="Digite para filtrar" v-model="filtro">
+        <span class="icon is-small is-left">
+          <i class="fas fa-search"></i>
+        </span>
+      </p>
+    </div>
     <BoxTemplate v-if="listaEstaVazia">
       Você não executou nenhuma tarefa ainda!!
     </BoxTemplate>
@@ -59,11 +67,14 @@ export default defineComponent({
   setup() {
     const store = useStore(key)
     const idProjeto = ref('')
-    const projetos = computed(() => store.state.projeto.projetos)
-    const tarefas = computed(() => store.state.tarefa.tarefas)
-    const listaEstaVazia = computed((): boolean => tarefas.value?.length === 0)
-    const { notificar } = useNotificador()
+    const filtro = ref('')
     const tarefaSelecionada = ref(null as ITarefa | null)
+    const { notificar } = useNotificador()
+    const projetos = computed(() => store.state.projeto.projetos)
+    const tarefas = computed(() => store.state.tarefa.tarefas?.filter(
+      task => !filtro.value || task.descricao.includes(filtro.value)
+    ))
+    const listaEstaVazia = computed((): boolean => tarefas.value?.length === 0)
 
     store.dispatch(OBTER_TAREFAS)
     store.dispatch(OBTER_PROJETOS)
@@ -97,6 +108,7 @@ export default defineComponent({
 
     return {
       listaEstaVazia,
+      filtro,
       tarefas,
       tarefaSelecionada,
       idProjeto,
